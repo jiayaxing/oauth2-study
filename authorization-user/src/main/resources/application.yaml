@@ -1,0 +1,82 @@
+spring:
+  application:
+    name: /user-server
+  datasource:
+    url: jdbc:mysql://192.168.1.156:3306/oauth2_study?useUnicode=true&characterEncoding=utf-8&autoReconnect=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      read-only: false
+      connection-timeout: 30000
+      idle-timeout: 600000
+      validation-timeout: 3000
+      max-lifetime: 180000
+      login-timeout: 5
+      maximum-pool-size: 60
+      minimum-idle: 10
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  redis:
+    database: 2
+    host: localhost
+    port: 32768
+    password: 1qaz@WSX
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+    timeout: 100ms
+  http:
+    encoding:
+      force: true
+      enabled: true
+      charset: utf-8
+server:
+  port: 8067
+  servlet:
+    context-path: /user-server
+  tomcat:
+    uri-encoding: UTF-8
+management:
+  endpoint:
+    health:
+      enabled: true
+logging:
+  file: /logs/userLogs/user.log
+  level:
+    org.springframework.web: INFO
+security:
+  oauth2:
+    client:
+      client-id: user-client
+      client-secret: user-secret-8888
+      #客户登录本系统时要跳到认证服务器的一个url去登录，这个就是认证服务器的那个登录url
+      user-authorization-uri: http://localhost:8066/auth-server/oauth/authorize
+      #本系统要和认证服务器的这个url请求令牌
+      access-token-uri: http://localhost:8066/auth-server/oauth/token
+    resource:
+      jwt:
+        #获取解析token的密钥，这是访问认证服务器的这个url要密钥的时候需要带上client-id和client-secret认证
+        key-uri: http://localhost:8066/auth-server/oauth/token_key
+        key-value: dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
